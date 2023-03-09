@@ -46,7 +46,7 @@ function checkWinner(): 'X' | 'O' | null {
       if (g[i - 1][j - 1] === g[i][j] && g[i][j] === g[i + 1][j + 1])
         return g[i][j]
 
-      if (g[i + 1][j + 1] === g[i][j] && g[i][j] === g[i - 1][j - 1])
+      if (g[i + 1][j - 1] === g[i][j] && g[i][j] === g[i - 1][j + 1])
         return g[i][j]
     }
   }
