@@ -1,7 +1,8 @@
 {
   "recommendations": [
-    "Vue.volar",
-    "Vue.vscode-typescript-vue-plugin",
-    "antfu.unocss"
+    "vue.vscode-typescript-vue-plugin",
+    "antfu.unocss",
+    "misterj.vue-volar-extention-pack",
+    "vue.volar"
   ]
 }
