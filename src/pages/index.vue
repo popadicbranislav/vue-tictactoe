@@ -3,7 +3,7 @@ useHead({
   title: 'tic-tac-toe',
 })
 
-const boardSize = 8
+const boardSize = 10
 const initialGrid = () => {
   const a: null[][] = []
   for (let i = 0; i < boardSize; i++) {
@@ -56,7 +56,10 @@ function checkWinner(): 'X' | 'O' | null {
 
 function handleCellClick(row: number, cell: number) {
   if (winner.value)
-    grid.value = initialGrid()
+    return handleReset()
+
+  if (grid.value[row][cell])
+    return
 
   grid.value[row][cell] = current.value
 
@@ -68,36 +71,55 @@ function handleCellClick(row: number, cell: number) {
 function handleReset() {
   grid.value = initialGrid()
   current.value = 'X'
+  winner.value = null
 }
 </script>
 
 <template>
   <div
-    class="h-screen flex items-center justify-center"
+    class="h-screen flex flex-col items-center justify-center gap-6"
   >
-    <div>
-      <div class="toolbar mb-4 flex justify-between">
-        <h1>
-          Game
-        </h1>
+    <div class="toolbar flex items-center justify-between gap-8">
+      <h1 class="flex items-center gap-2">
+        <div class="i-carbon-game-console text-5" />
+        tic-tac-toe
+      </h1>
 
-        <div>Current player: {{ current }}</div>
-        <div>Winner: {{ winner || '-' }}</div>
-      </div>
+      <div>next: {{ current }}</div>
 
-      <button class="mb-4 rounded-1 bg-gray-7 px-3 py-1 text-white hover:bg-gray-8" @click="handleReset">
+      <button
+        class="flex items-center gap-3 rounded-1 bg-gray-7 px-3 py-1 text-3 uppercase text-white hover:bg-gray-8"
+        @click="handleReset"
+      >
+        <div class="i-carbon-reset" />
         reset
       </button>
 
-      <div class="flex flex-col gap-2">
-        <div v-for="row, r in grid" :key="r" class="flex gap-2">
-          <div v-for="cell, c in row" :key="c">
-            <div
-              class="aspect-1 w-4rem cursor-pointer bg-gray-7 text-center text-10 font-black hover:bg-gray-8"
-              @click="handleCellClick(r, c)"
-            >
-              {{ cell }}
-            </div>
+      <dialog :open="!!winner" class="animate-jack-in-the-box cursor-pointer rounded-2 bg-gray-9 op-75 shadow-xl backdrop-blur-8 transition-opacity-666 hover:op-100" @click="handleReset">
+        <div class="text-center text-8 font-bold">
+          The winner is<br>
+          <div class="text-14">
+            {{ winner }}
+          </div>
+
+          <div
+            class="flex items-center justify-center gap-3 rounded-1 bg-gray-7 px-3 py-1 text-3 uppercase text-white hover:bg-gray-8"
+            @click="handleReset"
+          >
+            play again
+          </div>
+        </div>
+      </dialog>
+    </div>
+
+    <div class="flex flex-col gap-2">
+      <div v-for="row, r in grid" :key="r" class="flex gap-2">
+        <div v-for="cell, c in row" :key="c">
+          <div
+            class="aspect-1 w-4rem cursor-pointer select-none bg-gray-7 text-center text-10 font-black hover:bg-gray-8"
+            @click="handleCellClick(r, c)"
+          >
+            {{ cell }}
           </div>
         </div>
       </div>
